@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>팀짜기</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tagify/4.13.1/tagify.min.css" rel="stylesheet" >
+</head>
+
+<body>
+
+    
+    <div class="container h-100">
+        <br/>
+        <br/>
+        <br/>
+        
+        <h1 align="center">팀 짜 기</h1>
+        <input name='basic'  value='tag1, tag2, autofocus'>
+        
+        <br/>
+        <br/>
+        <br/>
+
+        <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+            <option>인원선택</option>
+            <option value="1">솔로</option>
+            <option value="2">듀오</option>
+            <option value="3">3쿼드</option>
+            <option value="4">4쿼드</option>
+        </select>
+
+        <div class="d-grid gap-2 col-6 mx-auto">
+            <button class="btn btn-primary" type="button" onclick="team();">팀짜기</button>
+            <button class="btn btn-danger" type="button">초기화</button>
+          </div>
+
+    </div>
+
+
+
+
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tagify/4.13.1/tagify.min.js"></script>
+</body>
+
+</html>
+
+<script>
+    var input = document.querySelector('input[name=basic]')
+    // init Tagify script on the above inputs
+    var tagify = new Tagify(input, {
+        whitelist: ["foo", "bar", "baz"],
+        dropdown: {
+            position: "input",
+            enabled: 0 // always opens dropdown when input gets focus
+        }
+    });
+
+
+    function team() {
+
+        var arr = $("input[name='basic']").val();
+
+        console.log(JSON.stringify(arr));
+
+
+        $.ajax({
+            type: "post",
+            contentType: 'application/json',
+            url: "team",
+            data: JSON.stringify(arr),
+            dataType: "json",
+            success: function (response) {
+                
+                console.log(response);
+                
+            },
+            error : function (e) {
+                console.log("error" + arr);
+            }
+        });
+
+
+      }
+</script>
