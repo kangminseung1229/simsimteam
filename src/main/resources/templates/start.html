@@ -10,6 +10,12 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tagify/4.13.1/tagify.min.css" rel="stylesheet" >
+
+    <style>
+        .team{
+
+        }
+    </style>
 </head>
 
 <body>
@@ -20,14 +26,18 @@
         <br/>
         <br/>
         
-        <h1 align="center">팀 짜 기</h1>
-        <input name='basic'  value='tag1, tag2, autofocus'>
+        <img src="/img/3.png" style="height:10%; width: 10%;">
+        <img src="/img/5.png" style="height:10%; width: 10%;">
+        <h1 align="center" >팀 짜 기</h1>
+
+        <h4>이름 - </h4>
+        <input name='basic'  value=''>
         
         <br/>
         <br/>
         <br/>
 
-        <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+        <select id="cnt" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
             <option>인원선택</option>
             <option value="1">솔로</option>
             <option value="2">듀오</option>
@@ -37,8 +47,20 @@
 
         <div class="d-grid gap-2 col-6 mx-auto">
             <button class="btn btn-primary" type="button" onclick="team();">팀짜기</button>
-            <button class="btn btn-danger" type="button">초기화</button>
-          </div>
+            <button class="btn btn-danger" type="button" onclick="load();">초기화</button>
+        </div>
+
+
+        
+        <hr>
+
+
+        <div class="d-grid gap-2 col-6 mx-auto">
+            
+            <span id="resultValue"></span>
+        </div>
+
+        
 
     </div>
 
@@ -47,12 +69,12 @@
 
 
 
-    <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous">
+    integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous">
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tagify/4.13.1/tagify.min.js"></script>
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 </body>
 
 </html>
@@ -61,34 +83,40 @@
     var input = document.querySelector('input[name=basic]')
     // init Tagify script on the above inputs
     var tagify = new Tagify(input, {
-        whitelist: ["foo", "bar", "baz"],
+        whitelist: ["유한성", "으이", "머쓱"],
         dropdown: {
             position: "input",
             enabled: 0 // always opens dropdown when input gets focus
         }
     });
 
+    function load() {  location.reload(); }
+
 
     function team() {
 
         var arr = $("input[name='basic']").val();
+        var cnt = $("#cnt").val();
 
-        console.log(JSON.stringify(arr));
-
+        if (cnt == "인원선택" || arr =="") {
+            alert('몇팀?');
+            return;
+        }
+        
 
         $.ajax({
             type: "post",
             contentType: 'application/json',
-            url: "team",
-            data: JSON.stringify(arr),
-            dataType: "json",
+            url: "team?cnt="+cnt,
+            data: arr,
+            dataType: "text",
             success: function (response) {
                 
-                console.log(response);
-                
+
+                $("#resultValue").replaceWith(response);
             },
             error : function (e) {
-                console.log("error" + arr);
+                console.log(e);
             }
         });
 
