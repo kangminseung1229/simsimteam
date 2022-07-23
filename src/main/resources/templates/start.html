@@ -9,69 +9,69 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/tagify/4.13.1/tagify.min.css" rel="stylesheet" >
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tagify/4.13.1/tagify.min.css" rel="stylesheet">
 
     <style>
-        .team{
-
-        }
+        .team {}
     </style>
 </head>
 
 <body>
 
-    
+
     <div class="container h-100">
-        <br/>
-        <br/>
-        <br/>
-        
+        <br />
+        <br />
+        <br />
+
         <img src="/img/3.png" style="height:10%; width: 10%;">
         <img src="/img/5.png" style="height:10%; width: 10%;">
-        <h1 align="center" >팀 짜 기</h1>
+        <h1 align="center">팀 짜 기</h1>
 
-        <h4>이름 - </h4>
-        <input name='basic'  value=''>
+
         
-        <br/>
-        <br/>
-        <br/>
-
-        <select id="cnt" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
-            <option>인원선택</option>
-            <option value="1">솔로</option>
-            <option value="2">듀오</option>
-            <option value="3">3쿼드</option>
-            <option value="4">4쿼드</option>
-        </select>
-
-        <div class="d-grid gap-2 col-6 mx-auto">
-            <button class="btn btn-primary" type="button" onclick="team();">팀짜기</button>
-            <button class="btn btn-danger" type="button" onclick="load();">초기화</button>
+        <div style="margin: 20px; ">
+            <h4> 인원 : <span id="cnt1">0</span></h4>
+            <input name='basic' value=''>
         </div>
 
 
-        
-        <hr>
+        <br />
+        <br />
+        <br />
 
 
-        <div class="d-grid gap-2 col-6 mx-auto">
+<!--             <button class="btn btn-primary" type="button" onclick="team();">팀짜기</button>
+            <button class="btn btn-danger" type="button" onclick="load();">초기화</button>
+ -->
+
+        <div class="text-center gap-2 row-4 mx-auto">
+
+            <button type="button" class="btn btn-primary btn-lg" onclick="team(1);">SOLO</button>
+            <button type="button" class="btn btn-warning btn-lg" onclick="team(2);">DUO</button>
+            <button type="button" class="btn btn-success btn-lg" onclick="team(3);">3SQUARD</button>
+            <button type="button" class="btn btn-info btn-lg" onclick="team(4);">SQUARD</button>
+            <button type="button" class="btn btn-dark btn-lg" onclick="team(5);">N:N</button>
             
+        </div>
+
+        <br/>
+        <br/>
+
+        <div class="text-center gap-2 col-6 mx-auto">
             <span id="resultValue"></span>
         </div>
 
-        
+        <div class="text-center ">
+            <p>Prod. Yuhansung</p>
+        </div>
+
+
 
     </div>
 
-
-
-
-
-
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous">
+        integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous">
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tagify/4.13.1/tagify.min.js"></script>
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
@@ -90,36 +90,53 @@
         }
     });
 
-    function load() {  location.reload(); }
+    tagify.on('add', function (e) {
+        if (tagify.listeners.dropdown) {
+            // var tag_id = e.detail.data.code;
+            //do my code
+            $("#cnt1").text($(".tagify__tag ").length+1);
+        }
+    });
 
 
-    function team() {
+    function load() {
+        location.reload();
+    }
+
+
+    function team(cnt) {
 
         var arr = $("input[name='basic']").val();
-        var cnt = $("#cnt").val();
+        // var cnt = $("#cnt").val();
 
-        if (cnt == "인원선택" || arr =="") {
+        if ( arr == "") {
             alert('몇팀?');
             return;
         }
+
+        if (cnt == 5 ){
+            cnt = Math.round($(".tagify__tag ").length/2);
+        }
+
         
+
 
         $.ajax({
             type: "post",
             contentType: 'application/json',
-            url: "team?cnt="+cnt,
+            url: "team?cnt=" + cnt,
             data: arr,
             dataType: "text",
             success: function (response) {
-                
+
 
                 $("#resultValue").replaceWith(response);
             },
-            error : function (e) {
+            error: function (e) {
                 console.log(e);
             }
         });
 
 
-      }
+    }
 </script>

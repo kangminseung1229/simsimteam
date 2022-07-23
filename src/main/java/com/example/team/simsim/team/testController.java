@@ -1,14 +1,9 @@
 package com.example.team.simsim.team;
 
 import java.text.ParseException;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,7 +14,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import jakarta.websocket.Endpoint;
 import lombok.RequiredArgsConstructor;
 
 @Controller
@@ -49,7 +43,7 @@ public class testController {
 
             for (nickname nickname : data) {
 
-                returnValue += "<button type=\"button\" class=\"btn btn-info\">" + nickname.getValue() + "</button>"
+                returnValue += "<button type=\"button\" class=\"btn btn-dark\">" + nickname.getValue() + "</button>"
                         + "&#9;";
                 i++;
 
