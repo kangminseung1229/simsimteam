@@ -98,6 +98,14 @@
         }
     });
 
+    tagify.on('remove', function (e) {
+        if (tagify.listeners.dropdown) {
+            // var tag_id = e.detail.data.code;
+            //do my code
+            $("#cnt1").text($(".tagify__tag ").length);
+        }
+    });
+
 
     function load() {
         location.reload();
